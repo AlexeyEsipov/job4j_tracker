@@ -4,8 +4,16 @@ public class Item {
     private int id;
     private String name;
 
+
+    public Item(String name) {
+        this.name = name;
+    }
+
+    public Item() {
+    }
+
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(int id) {
