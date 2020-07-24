@@ -55,7 +55,6 @@ public class StartUITest {
         assertThat(tracker.findById(item.getId()), is(nullValue()));
     }
 
-    @SuppressWarnings("checkstyle:LineLength")
     @Test
     public void whenExit() {
         Output out = new StubOutput();
@@ -68,11 +67,10 @@ public class StartUITest {
         };
         new StartUI(out).init(in, tracker, actions);
         assertThat(out.toString(),
-                is("Menu." + System.lineSeparator() + "0. === Exit Program ===" + System.lineSeparator()));
+                is("Menu." + System.lineSeparator()
+                        + "0. === Exit Program ===" + System.lineSeparator()));
     }
-//--------------------------------------------------------------
 
-    @SuppressWarnings("checkstyle:LineLength")
     @Test
     public void whenFindById() {
         Output out = new StubOutput();
@@ -87,10 +85,13 @@ public class StartUITest {
         };
         new StartUI(out).init(in, tracker, actions);
         assertThat(out.toString(),
-                is("Menu." + System.lineSeparator() + "0. === Find item by Id ===" + System.lineSeparator()
-                        + "1. === Exit Program ===" + System.lineSeparator() + "ID: 1, Name: New item"
-                        + System.lineSeparator() + "Menu." + System.lineSeparator() + "0. === Find item by Id ==="
-                        + System.lineSeparator() + "1. === Exit Program ===" + System.lineSeparator()));
+                is("Menu." + System.lineSeparator()
+                  + "0. === Find item by Id ===" + System.lineSeparator()
+                  + "1. === Exit Program ===" + System.lineSeparator()
+                  + "ID: 1, Name: New item" + System.lineSeparator()
+                  + "Menu." + System.lineSeparator()
+                  + "0. === Find item by Id ===" + System.lineSeparator()
+                  + "1. === Exit Program ===" + System.lineSeparator()));
     }
 
     @Test
@@ -107,12 +108,14 @@ public class StartUITest {
         };
         new StartUI(out).init(in, tracker, actions);
         assertThat(out.toString(),
-                is("Menu." + System.lineSeparator() + "0. === Find item by Id ===" + System.lineSeparator()
-                        + "1. === Exit Program ===" + System.lineSeparator() + "Объект с требуемым ID не найден"
-                        + System.lineSeparator() + "Menu." + System.lineSeparator() + "0. === Find item by Id ==="
-                        + System.lineSeparator() + "1. === Exit Program ===" + System.lineSeparator()));
+                is("Menu." + System.lineSeparator()
+                  + "0. === Find item by Id ===" + System.lineSeparator()
+                  + "1. === Exit Program ===" + System.lineSeparator()
+                  + "Объект с требуемым ID не найден" + System.lineSeparator()
+                  + "Menu." + System.lineSeparator()
+                  + "0. === Find item by Id ===" + System.lineSeparator()
+                  + "1. === Exit Program ===" + System.lineSeparator()));
     }
-    //--------------------------------------------------------------
 
     @Test
     public void whenFindByName() {
@@ -128,10 +131,13 @@ public class StartUITest {
         };
         new StartUI(out).init(in, tracker, actions);
         assertThat(out.toString(),
-                is("Menu." + System.lineSeparator() + "0. === Find items by name ===" + System.lineSeparator()
-                        + "1. === Exit Program ===" + System.lineSeparator() + "ID: 1, Name: New item"
-                        + System.lineSeparator() + "Menu." + System.lineSeparator() + "0. === Find items by name ==="
-                        + System.lineSeparator() + "1. === Exit Program ===" + System.lineSeparator()));
+                is("Menu." + System.lineSeparator()
+                    + "0. === Find items by name ===" + System.lineSeparator()
+                    + "1. === Exit Program ===" + System.lineSeparator()
+                    + "ID: 1, Name: New item" + System.lineSeparator()
+                    + "Menu." + System.lineSeparator()
+                    + "0. === Find items by name ===" + System.lineSeparator()
+                    + "1. === Exit Program ===" + System.lineSeparator()));
     }
 
     @Test
@@ -148,9 +154,37 @@ public class StartUITest {
         };
         new StartUI(out).init(in, tracker, actions);
         assertThat(out.toString(),
-                is("Menu." + System.lineSeparator() + "0. === Find items by name ===" + System.lineSeparator()
-                        + "1. === Exit Program ===" + System.lineSeparator() + "Объекты с требуемым именем не найдены"
-                        + System.lineSeparator() + "Menu." + System.lineSeparator() + "0. === Find items by name ==="
-                        + System.lineSeparator() + "1. === Exit Program ===" + System.lineSeparator()));
+                is("Menu." + System.lineSeparator()
+                    + "0. === Find items by name ===" + System.lineSeparator()
+                    + "1. === Exit Program ===" + System.lineSeparator()
+                    + "Объекты с требуемым именем не найдены" + System.lineSeparator()
+                    + "Menu." + System.lineSeparator()
+                    + "0. === Find items by name ===" + System.lineSeparator()
+                    + "1. === Exit Program ===" + System.lineSeparator()));
+    }
+
+    @Test
+    public void whenFindAll() {
+        Output out = new StubOutput();
+        Tracker tracker = new Tracker();
+        Item item = tracker.add(new Item("First item"));
+        tracker.add(new Item("Second item"));
+        Input in = new StubInput(
+                new String[]{"0", "1"}
+        );
+        UserAction[] actions = {
+                new ShowAllItems(out),
+                new ExitProgram(out)
+        };
+        new StartUI(out).init(in, tracker, actions);
+        assertThat(out.toString(),
+                is("Menu." + System.lineSeparator()
+                        + "0. === Show all items ===" + System.lineSeparator()
+                        + "1. === Exit Program ===" + System.lineSeparator()
+                        + "Item: ID: 1, Name: First item" + System.lineSeparator()
+                        + "Item: ID: 2, Name: Second item" + System.lineSeparator()
+                        + "Menu." + System.lineSeparator()
+                        + "0. === Show all items ===" + System.lineSeparator()
+                        + "1. === Exit Program ===" + System.lineSeparator()));
     }
 }
