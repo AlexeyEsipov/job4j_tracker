@@ -18,7 +18,7 @@ public class FindItemsByName implements UserAction {
         Item[] allItem = tracker.findByName(keyName);
         if (allItem.length != 0) {
             for (Item el: allItem) {
-                out.println("Item: ID: " + el.getId() + ", Name: " + el.getName());
+                out.println("ID: " + el.getId() + ", Name: " + el.getName());
             }
         } else {
             out.println("Объекты с требуемым именем не найдены");

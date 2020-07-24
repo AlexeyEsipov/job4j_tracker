@@ -20,7 +20,7 @@ public class FindItemById implements UserAction {
         if (selectItem != null) {
             out.println("ID: " + selectItem.getId() + ", Name: " + selectItem.getName());
         } else {
-            out.println("Обект с требуемым ID не найден");
+            out.println("Объект с требуемым ID не найден");
         }
         return true;
     }
