@@ -6,7 +6,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-
 public class LexSortTest {
     @Test
     public void sortNum1and2and10() {
