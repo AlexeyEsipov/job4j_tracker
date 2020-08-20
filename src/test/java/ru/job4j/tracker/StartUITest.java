@@ -38,7 +38,8 @@ public class StartUITest {
         actions.add(new ReplaceItem(out));
         actions.add(new ExitProgram(out));
         new StartUI(out).init(in, tracker, actions);
-        assertThat(tracker.findById(item.getId()).getName(), is(replacedName));
+        Item byId = tracker.findById(item.getId());
+        assertThat(byId.getName(), is(replacedName));
     }
 
     @Test

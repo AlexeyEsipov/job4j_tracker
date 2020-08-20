@@ -12,13 +12,13 @@ after_success:
   - bash <(curl -s https://codecov.io/bash)
 
 
-# Отправлять уведомление на почтуyouremail@smtp.ru(Изменить на свою) если сборка упала
+# Отправлять уведомление на почту youremail@smtp.ru(Изменить на свою) если сборка упала
 notifications:
   email:
     recipients:
-      -a_esipov@list.ru
+      - a_esipov@list.ru
     on_success: never # default: change
-    on_failure: always # defa,ult: always
+    on_failure: always # default: always
 env:
   global:
     - CODECOV_TOKEN="09168aa2-099e-402d-92e9-7057fe275124"
