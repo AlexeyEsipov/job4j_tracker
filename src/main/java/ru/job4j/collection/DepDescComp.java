@@ -10,11 +10,7 @@ public class DepDescComp implements Comparator<String> {
         String[] o2TwoWord = o2.split("/", 2);
         int result  = o2TwoWord[0].compareTo(o1TwoWord[0]);
         if (result == 0) {
-            if (o1TwoWord.length != o2TwoWord.length) {
-                result = o1TwoWord.length - o2TwoWord.length;
-            } else {
-                result = o1TwoWord[1].compareTo(o2TwoWord[1]);
-            }
+            result = o1.compareTo(o2);
         }
         return result;
     }
