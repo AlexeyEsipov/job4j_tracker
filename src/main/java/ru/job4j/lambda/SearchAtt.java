@@ -42,9 +42,8 @@ public class SearchAtt {
     private static List<Attachment> filter(List<Attachment> list,
                                        BiPredicate<Attachment, Supplier> func, Supplier initValue) {
         List<Attachment> rsl = new ArrayList<>();
-        var kriteria  = initValue.get();
         for (Attachment att : list) {
-            if (func.test(att, (Supplier) kriteria)) {
+            if (func.test(att, initValue)) {
                 rsl.add(att);
             }
         }
