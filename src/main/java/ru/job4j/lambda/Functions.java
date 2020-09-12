@@ -7,8 +7,8 @@ import java.util.function.Function;
 public class Functions {
     public static List<Double> diapason(int start, int end, Function<Double, Double> func) {
         List<Double> result = new ArrayList<>();
-        for (int i = 0; i < end - start; i++) {
-            result.add(i, func.apply((double) (start + i)));
+        for (int i = start; i < end; i++) {
+            result.add(i - start, func.apply((double) (i)));
         }
         return result;
     }
