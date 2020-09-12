@@ -1,6 +1,5 @@
 package ru.job4j.lambda;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -19,8 +18,7 @@ public class FI {
         System.out.println(SearchAtt.filterName(listAtts));
         System.out.println(SearchAtt.filterSize(listAtts));
         System.out.println("--------");
-        Comparator<Attachment> comparator = (left, right) -> left.getSize() - right.getSize();
-        Comparator<Attachment> cmpSize = (left, right) -> left.getName().length() - right.getName().length();
+        Comparator<Attachment> cmpSize = Comparator.comparingInt(left -> left.getName().length());
         Comparator<Attachment> cmpDescSize = (left, right) -> {
             System.out.println("cmpDescSize compare - " + right.getName().length()
                     + " : " + left.getName().length());
