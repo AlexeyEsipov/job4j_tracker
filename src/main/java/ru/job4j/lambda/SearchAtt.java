@@ -2,48 +2,34 @@ package ru.job4j.lambda;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiPredicate;
-import java.util.function.Supplier;
+import java.util.function.Predicate;
 
 public class SearchAtt {
 
     public static List<Attachment> filterSize(List<Attachment> list) {
-        Supplier<Integer> initValueInt = new Supplier<Integer>() {
+        Predicate<Attachment> pred = new Predicate<>() {
             @Override
-            public Integer get() {
-                return 100;
+            public boolean test(Attachment att) {
+                return att.getSize() > 100;
             }
         };
-        BiPredicate<Attachment, Supplier> predBi = new BiPredicate<>() {
-            @Override
-            public boolean test(Attachment att, Supplier supp) {
-                return att.getSize() > (int) supp.get();
-            }
-        };
-        return filter(list, predBi, initValueInt);
+        return filter(list, pred);
     }
 
     public static List<Attachment> filterName(List<Attachment> list) {
-        Supplier<String> initValueString = new Supplier<String>() {
+        Predicate<Attachment> pred = new Predicate<>() {
             @Override
-            public String get() {
-                return "bug";
+            public boolean test(Attachment att) {
+                return att.getName().contains("bug");
             }
         };
-        BiPredicate<Attachment, Supplier> predBi = new BiPredicate<>() {
-            @Override
-            public boolean test(Attachment att, Supplier supp) {
-                return att.getName().contains((String) supp.get());
-            }
-        };
-        return filter(list, predBi, initValueString);
+        return filter(list, pred);
     }
 
-    private static List<Attachment> filter(List<Attachment> list,
-                                       BiPredicate<Attachment, Supplier> func, Supplier initValue) {
+    private static List<Attachment> filter(List<Attachment> list, Predicate<Attachment> func) {
         List<Attachment> rsl = new ArrayList<>();
         for (Attachment att : list) {
-            if (func.test(att, initValue)) {
+            if (func.test(att)) {
                 rsl.add(att);
             }
         }
