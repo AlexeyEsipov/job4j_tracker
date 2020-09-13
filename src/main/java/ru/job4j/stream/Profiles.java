@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Profiles {
-    private final List<Profile> listProfile = new ArrayList<>();
+    private List<Profile> listProfile = new ArrayList<>();
 
     public void add(Profile profile) {
         this.listProfile.add(profile);
