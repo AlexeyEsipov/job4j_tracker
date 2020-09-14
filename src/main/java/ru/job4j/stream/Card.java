@@ -1,7 +1,9 @@
 package ru.job4j.stream;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Card {
     private Suit suit;
@@ -14,10 +16,9 @@ public class Card {
 
     public static void main(String[] args) {
         List<Card> cards = new ArrayList<>();
-        for (Suit suit: Suit.values()) {
-            for (Value value: Value.values()) {
-                cards.add(new Card(suit, value));
-            }
-        }
+        cards = Arrays.stream(Suit.values())
+                        .flatMap(s -> Arrays.stream(Value.values())
+                                    .map(v -> new Card(s, v)))
+                        .collect(Collectors.toList());
     }
 }
