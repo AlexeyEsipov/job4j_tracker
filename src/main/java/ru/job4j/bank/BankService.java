@@ -23,7 +23,7 @@ public class BankService {
         Optional<User> userResult = users.keySet()
                 .stream()
                 .filter(user -> user.getPassport().equals(passport))
-                .findAny();
+                .findFirst();
         if (userResult.isPresent()) {
             result = userResult;
         }
