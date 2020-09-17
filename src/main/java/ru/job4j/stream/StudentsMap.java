@@ -1,8 +1,7 @@
 package ru.job4j.stream;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class StudentsMap {
@@ -14,12 +13,10 @@ public class StudentsMap {
 
     public Map<String, Student> collectMap(List<Student> students) {
         return students.stream()
-                .distinct()
                 .collect(Collectors.toMap(
                         Student::getSurname,
-                        student -> student
-                        )
+                        Function.identity(),
+                        (s1, s2) -> s1)
                 );
-
     }
 }
