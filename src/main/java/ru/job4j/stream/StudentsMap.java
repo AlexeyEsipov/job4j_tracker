@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class StudentsMap {
     private List<Student> students = new ArrayList<>();
-
+    
     public void add(Student student) {
         this.students.add(student);
     }
