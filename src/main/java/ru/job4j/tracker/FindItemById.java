@@ -14,10 +14,10 @@ public class FindItemById implements UserAction {
     }
 
     @Override
-    public boolean execute(Input input, Tracker tracker) {
+    public boolean execute(Input input, Store tracker) {
         int selectId = input.askInt("Enter ID: ");
         Item selectItem = tracker.findById(selectId);
-        if (selectItem != null) {
+        if (selectItem.getName() != null) {
             out.println("ID: " + selectItem.getId() + ", Name: " + selectItem.getName());
         } else {
             out.println("Объект с требуемым ID не найден");
