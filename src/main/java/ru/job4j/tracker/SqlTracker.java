@@ -9,6 +9,13 @@ import java.util.Properties;
 public class SqlTracker implements Store {
     private Connection cn;
 
+    public SqlTracker(Connection connection) {
+        this.cn = connection;
+    }
+
+    public SqlTracker() {
+    }
+
     public void init() {
         try (InputStream in = SqlTracker.class.getClassLoader()
                                         .getResourceAsStream("app.properties")) {
@@ -23,7 +30,6 @@ public class SqlTracker implements Store {
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
-        createTable();
     }
 
     @Override
@@ -40,13 +46,13 @@ public class SqlTracker implements Store {
                              "insert into items (name) values (?)",
                              Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, item.getName());
-            statement.execute();
+            statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     item.setId(generatedKeys.getInt(1));
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return item;
@@ -131,19 +137,5 @@ public class SqlTracker implements Store {
             e.printStackTrace();
         }
         return item;
-    }
-
-    private void createTable() {
-        try (Statement statement = cn.createStatement()) {
-            statement.execute("drop table if exists items;");
-            String sql = String.format(
-                    "create table if not exists items(%s, %s);",
-                    "id serial primary key",
-                    "name varchar(255)"
-            );
-            statement.execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

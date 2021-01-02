@@ -2,18 +2,38 @@ package ru.job4j.tracker;
 
 import org.junit.Test;
 
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class StartUITest {
 
+    public Connection init() {
+        try (InputStream in = SqlTracker.class.getClassLoader()
+                .getResourceAsStream("app.properties")) {
+            Properties config = new Properties();
+            config.load(in);
+            Class.forName(config.getProperty("driver-class-name"));
+            return DriverManager.getConnection(
+                    config.getProperty("url"),
+                    config.getProperty("username"),
+                    config.getProperty("password")
+
+            );
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
     @Test
     public void whenCreateItem() {
-        try (Store tracker = new SqlTracker()) {
-            tracker.init();
+        try (Store tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             Output out = new StubOutput();
             Input in = new StubInput(new String[] {"0", "Item name", "1"});
             List<UserAction> actions = new ArrayList<>();
@@ -28,8 +48,7 @@ public class StartUITest {
 
     @Test
     public void whenReplaceItem() {
-        try (Store tracker = new SqlTracker()) {
-            tracker.init();
+        try (Store tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             Output out = new StubOutput();
             Item item = tracker.add(new Item("Replaced item"));
             String replacedName = "New item name";
@@ -49,8 +68,7 @@ public class StartUITest {
 
     @Test
     public void whenDeleteItem() {
-        try (Store tracker = new SqlTracker()) {
-            tracker.init();
+        try (Store tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             Output out = new StubOutput();
             Item item = tracker.add(new Item("Deleted item"));
             Input in = new StubInput(
@@ -69,8 +87,7 @@ public class StartUITest {
 
     @Test
     public void whenExit() {
-        try (Store tracker = new SqlTracker()) {
-            tracker.init();
+        try (Store tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
         Output out = new StubOutput();
         Input in = new StubInput(
                 new String[]{"0"}
@@ -89,8 +106,7 @@ public class StartUITest {
 
     @Test
     public void whenFindById() {
-        try (Store tracker = new SqlTracker()) {
-            tracker.init();
+        try (Store tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             Output out = new StubOutput();
             int id = tracker.add(new Item("New item")).getId();
             Input in = new StubInput(
@@ -115,8 +131,7 @@ public class StartUITest {
 
     @Test
     public void whenNotFindById() {
-        try (Store tracker = new SqlTracker()) {
-            tracker.init();
+        try (Store tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             Output out = new StubOutput();
             tracker.add(new Item("New item"));
             Input in = new StubInput(
@@ -141,8 +156,7 @@ public class StartUITest {
 
     @Test
     public void whenFindByName() {
-        try (Store tracker = new SqlTracker()) {
-            tracker.init();
+        try (Store tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             Output out = new StubOutput();
             Item item = tracker.add(new Item("New item"));
             int id = item.getId();
@@ -167,8 +181,7 @@ public class StartUITest {
 
     @Test
     public void whenNotFindByName() {
-        try (Store tracker = new SqlTracker()) {
-            tracker.init();
+        try (Store tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             Output out = new StubOutput();
             tracker.add(new Item("New item"));
             Input in = new StubInput(new String[]{"0", "Name", "1"});
@@ -191,8 +204,7 @@ public class StartUITest {
 
     @Test
     public void whenFindAll() {
-        try (Store tracker = new SqlTracker()) {
-            tracker.init();
+        try (Store tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             Output out = new StubOutput();
             tracker.add(new Item("First item"));
             tracker.add(new Item("Second item"));
@@ -217,8 +229,7 @@ public class StartUITest {
 
     @Test
     public void whenInvalidExit() {
-        try (Store tracker = new SqlTracker()) {
-            tracker.init();
+        try (Store tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             Output out = new StubOutput();
             Input in = new StubInput(new String[]{"-1", "0"});
             List<UserAction> actions = new ArrayList<>();
