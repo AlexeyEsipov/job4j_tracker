@@ -206,8 +206,10 @@ public class StartUITest {
     public void whenFindAll() {
         try (Store tracker = new SqlTracker(ConnectionRollback.create(this.init()))) {
             Output out = new StubOutput();
-            tracker.add(new Item("First item"));
-            tracker.add(new Item("Second item"));
+            Item itemFirst = tracker.add(new Item("First item"));
+            int idFirst = itemFirst.getId();
+            Item itemSecond = tracker.add(new Item("Second item"));
+            int idSecond = itemSecond.getId();
             Input in = new StubInput(new String[]{"0", "1"});
             List<UserAction> actions = new ArrayList<>();
             actions.add(new ShowAllItems(out));
@@ -217,8 +219,8 @@ public class StartUITest {
                 is("Menu." + System.lineSeparator()
                     + "0. === Show all items ===" + System.lineSeparator()
                     + "1. === Exit Program ===" + System.lineSeparator()
-                    + "Item: ID: 1, Name: First item" + System.lineSeparator()
-                    + "Item: ID: 2, Name: Second item" + System.lineSeparator()
+                    + "Item: ID: " + idFirst + ", Name: First item" + System.lineSeparator()
+                    + "Item: ID: " + idSecond + ", Name: Second item" + System.lineSeparator()
                     + "Menu." + System.lineSeparator()
                     + "0. === Show all items ===" + System.lineSeparator()
                     + "1. === Exit Program ===" + System.lineSeparator()));
