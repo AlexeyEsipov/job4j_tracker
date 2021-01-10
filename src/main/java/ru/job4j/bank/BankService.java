@@ -39,9 +39,9 @@ public class BankService {
     /**
      * Метод принимает на вход паспорт и возвращает соответствующего клиента банка,
      * если этот паспорт принадлежит клиенту. Если паспорт не принадлежит никому
-     * из клиентов, возвращает пустое значение Optional<User>
+     * из клиентов, возвращает пустое значение {@code Optional<User>}
      * @param passport паспорт
-     * @return значение Optional<User>
+     * @return значение {@code Optional<User>}
      */
     public Optional<User> findByPassport(String passport) {
           return users.keySet()
@@ -53,10 +53,10 @@ public class BankService {
     /**
      * Метод возвращает номер счета, если номер паспорта принадлежит клиенту банка
      * и если проверяемый номер счета принадлежит этому клиенту. Если эти условия не выполняются,
-     * то возвращается пустое значение Optional<Account>.
+     * то возвращается пустое значение {@code Optional<Account>}
      * @param passport паспорт
      * @param requisite номер счета
-     * @return значение Optional<Account>
+     * @return значение {@code Optional<Account>}
      */
     public Optional<Account> findByRequisite(String passport, String requisite) {
         Optional<Account> result = Optional.empty();
@@ -73,15 +73,15 @@ public class BankService {
     /**
      * Переводит средства от отправителя к получателю, предварительно проверив существование
      * источника, существование получателя, достаточность средств на счете отправителя. Возвращает
-     * true если перевод успешно произведен, и false если перевод не возможен ввиду отсутствия
-     * отправителя или получателя, или при недостатке средств на счете отправителя
+     * {@code true} если перевод успешно произведен, и {@code false} если перевод не возможен ввиду
+     * отсутствия отправителя или получателя, или при недостатке средств на счете отправителя
      * на счете отправителя,
      * @param srcPassport паспорт отправителя
      * @param srcRequisite счет отправителя
      * @param destPassport паспорт получателя
      * @param destRequisite счет получателя
      * @param amount сумма перевода
-     * @return true если перевод произведен, false если не произведен
+     * @return {@code true} если перевод произведен, {@code false} если не произведен
      */
     public boolean transferMoney(String srcPassport, String srcRequisite,
                                  String destPassport, String destRequisite, double amount) {
